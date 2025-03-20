@@ -1,0 +1,17 @@
+{
+  "NAV": {
+    "HOME": "Início",
+    "PRODUCTS": "Produtos",
+    "SERVICES": "Serviços",
+    "CONTACT": "Contato"
+  },
+  "PRODUCTS": {
+    "TITLE": "Nossos Produtos",
+    "CATEGORIES": "Categorias",
+    "SEARCH": "Buscar produtos..."
+  },
+  "SERVICES": {
+    "TITLE": "Serviços de Reparo",
+    "SCHEDULE": "Agendar Serviço"
+  }
+} 

@@ -1,0 +1,13 @@
+{
+  "NAV": {
+    "HOME": "Home",
+    "PRODUCTS": "Products",
+    "SERVICES": "Services",
+    "CONTACT": "Contact"
+  },
+  "PRODUCTS": {
+    "TITLE": "Our Products",
+    "CATEGORIES": "Categories",
+    "SEARCH": "Search products..."
+  }
+} 
