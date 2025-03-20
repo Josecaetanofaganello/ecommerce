@@ -1,0 +1,50 @@
+<div class="chat-bot">
+  <!-- Chat Button -->
+  <button class="chat-button" (click)="toggleChat()">
+    <i class="fas" [class.fa-comments]="!isOpen" [class.fa-times]="isOpen"></i>
+  </button>
+
+  <!-- Chat Window -->
+  <div class="chat-window" [class.open]="isOpen">
+    <!-- Chat Header -->
+    <div class="chat-header">
+      <div class="chat-title">
+        <i class="fas fa-robot"></i>
+        <span>Assistente Virtual</span>
+      </div>
+      <button class="close-button" (click)="toggleChat()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Chat Messages -->
+    <div class="chat-messages" #chatMessages>
+      <div *ngFor="let message of messages" 
+           class="message" 
+           [class.bot]="message.isBot" 
+           [class.user]="!message.isBot">
+        <div class="message-content">
+          <!-- Use ngIf to conditionally render HTML or plain text -->
+          <div *ngIf="message.isHtml" [innerHTML]="message.text | safeHtml"></div>
+          <div *ngIf="!message.isHtml">{{ message.text }}</div>
+        </div>
+        
+        <!-- Options -->
+        <div *ngIf="message.options" class="message-options">
+          <button *ngFor="let option of message.options"
+                  (click)="selectOption(option.value, option.text)">
+            {{ option.text }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Footer -->
+    <div class="chat-footer">
+      <button class="reset-button" (click)="resetChat()">
+        <i class="fas fa-redo"></i>
+        Recomeçar
+      </button>
+    </div>
+  </div>
+</div> 

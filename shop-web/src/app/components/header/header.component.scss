@@ -342,3 +342,15 @@ $text-light: #ffffff;
     }
   }
 } 
+
+.social-icon {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-size: 1.5rem;
+}

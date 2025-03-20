@@ -6,6 +6,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
+import { ChatBotComponent } from './components/chat-bot/chat-bot.component';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 
 // Required for translations
 export function HttpLoaderFactory(http: HttpClient) {
@@ -14,7 +16,9 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ChatBotComponent,
+    SafeHtmlPipe
   ],
   imports: [
     BrowserModule,

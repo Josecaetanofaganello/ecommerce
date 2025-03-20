@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { BodyComponent } from './components/body/body.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ChatBotComponent } from './components/chat-bot/chat-bot.component';
 
 @Component({
   selector: 'app-root',
@@ -13,12 +14,14 @@ import { FooterComponent } from './components/footer/footer.component';
     RouterOutlet,
     HeaderComponent,
     BodyComponent,
-    FooterComponent
+    FooterComponent,
+    ChatBotComponent
   ],
   template: `
     <app-header></app-header>
     <app-body></app-body>
     <app-footer></app-footer>
+    <app-chat-bot></app-chat-bot>
   `,
   styleUrls: ['./app.component.scss']
 })
