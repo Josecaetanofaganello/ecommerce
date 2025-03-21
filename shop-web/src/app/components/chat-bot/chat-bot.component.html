@@ -24,7 +24,6 @@
            [class.bot]="message.isBot" 
            [class.user]="!message.isBot">
         <div class="message-content">
-          <!-- Use ngIf to conditionally render HTML or plain text -->
           <div *ngIf="message.isHtml" [innerHTML]="message.text | safeHtml"></div>
           <div *ngIf="!message.isHtml">{{ message.text }}</div>
         </div>
