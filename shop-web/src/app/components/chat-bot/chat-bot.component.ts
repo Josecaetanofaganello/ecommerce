@@ -328,7 +328,9 @@ export class ChatBotComponent implements OnInit, AfterViewChecked {
     // Add user's selection to chat
     this.messages.push({
       text: text,
-      isBot: false
+      isBot: false,
+      userSelection: true,
+      category: this.getCurrentCategory(value)
     });
 
     // Get bot's response
@@ -352,6 +354,14 @@ export class ChatBotComponent implements OnInit, AfterViewChecked {
 
     // After adding new messages, force scroll
     setTimeout(() => this.scrollToBottom(), 0);
+  }
+
+  private getCurrentCategory(value: string): string {
+    if (value.includes('support')) return 'support';
+    if (value.includes('sales')) return 'sales';
+    if (value.includes('quote')) return 'quote';
+    if (value === 'schedule') return 'schedule';
+    return 'other';
   }
 
   resetChat() {

@@ -6,6 +6,8 @@ export interface ChatMessage {
   options?: ChatOption[];
   isSchedule?: boolean;
   isHtml?: boolean;
+  category?: string;  // Add category to track message context
+  userSelection?: boolean;  // Flag to indicate if this is a user selection
 }
 
 export interface ChatOption {
@@ -63,6 +65,7 @@ export class ChatBotService {
       isBot: true,
       isSchedule: true,
       isHtml: true,
+      category: 'schedule',
       options: [
         { text: 'Voltar ao Menu', value: 'initial' },
         { text: 'Falar com Atendente', value: 'contact' }
@@ -72,6 +75,7 @@ export class ChatBotService {
     'support': {
       text: 'Qual tipo de suporte você precisa?',
       isBot: true,
+      category: 'support',
       options: [
         { text: 'Computador', value: 'pc_support' },
         { text: 'Notebook', value: 'laptop_support' },
@@ -82,6 +86,7 @@ export class ChatBotService {
     'sales': {
       text: 'O que você gostaria de comprar?',
       isBot: true,
+      category: 'sales',
       options: [
         { text: 'Computadores', value: 'pc_sales' },
         { text: 'Notebooks', value: 'laptop_sales' },
@@ -92,6 +97,7 @@ export class ChatBotService {
     'quote': {
       text: 'Que tipo de orçamento você precisa?',
       isBot: true,
+      category: 'quote',
       options: [
         { text: 'Montagem de PC', value: 'pc_quote' },
         { text: 'Serviços', value: 'service_quote' },
@@ -107,7 +113,8 @@ export class ChatBotService {
   getResponse(option: string): ChatMessage {
     return this.RESPONSES[option] || {
       text: 'Vou te conectar com um atendente.',
-      isBot: true
+      isBot: true,
+      category: 'contact'
     };
   }
 
@@ -118,19 +125,61 @@ export class ChatBotService {
   }
 
   private formatWhatsAppMessage(conversation: ChatMessage[]): string {
-    const userSelections = conversation
-      .filter(msg => !msg.isBot)
-      .map(msg => msg.text)
-      .join('\n- ');
+    // Get the main category from the first user selection
+    const mainCategory = this.findMainCategory(conversation);
+    
+    // Get only the relevant user selections based on the category
+    const relevantSelections = conversation
+      .filter(msg => !msg.isBot && this.isRelevantMessage(msg, mainCategory))
+      .map(msg => msg.text);
 
-    return `Olá! Gostaria de atendimento sobre:\n- ${userSelections}`;
+    // Format the message based on the category
+    let message = 'Olá! ';
+    
+    switch (mainCategory) {
+      case 'support':
+        message += 'Preciso de suporte técnico para: ';
+        break;
+      case 'sales':
+        message += 'Tenho interesse em comprar: ';
+        break;
+      case 'quote':
+        message += 'Gostaria de um orçamento para: ';
+        break;
+      default:
+        message += 'Gostaria de informações sobre: ';
+    }
+
+    return message + relevantSelections.join(' > ');
+  }
+
+  private findMainCategory(conversation: ChatMessage[]): string {
+    // Find the first user selection that has a category
+    const firstSelection = conversation.find(msg => !msg.isBot && this.getCategoryFromSelection(msg.text));
+    return firstSelection ? this.getCategoryFromSelection(firstSelection.text) : 'other';
+  }
+
+  private getCategoryFromSelection(text: string): string {
+    // Map the selection text to a category
+    if (text.toLowerCase().includes('suporte')) return 'support';
+    if (text.toLowerCase().includes('comprar') || text.toLowerCase().includes('vendas')) return 'sales';
+    if (text.toLowerCase().includes('orçamento')) return 'quote';
+    if (text.toLowerCase().includes('horário')) return 'schedule';
+    return 'other';
+  }
+
+  private isRelevantMessage(message: ChatMessage, mainCategory: string): boolean {
+    // Check if the message is relevant to the main category
+    const messageCategory = this.getCategoryFromSelection(message.text);
+    return messageCategory === mainCategory || messageCategory === 'other';
   }
 
   private getScheduleMessage(): ChatMessage {
     return {
       text: this.SCHEDULE_HTML,
       isBot: true,
-      isHtml: true
+      isHtml: true,
+      category: 'schedule'
     };
   }
 
