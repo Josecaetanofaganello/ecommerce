@@ -225,12 +225,12 @@ export class DownloadsComponent {
       size: '35 MB'
     },
     {
-      name: 'Avast Free Antivirus',
+      name: 'ESET Antivirus',
       description: 'Proteção em tempo real contra vírus e malware',
       icon: '<svg viewBox="0 0 24 24"><path fill="#FF7800" d="M12 2L2 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-8-4z"/></svg>',
-      downloadUrl: 'https://www.avast.com/pt-br/free-antivirus-download',
+      downloadUrl: 'https://www.eset.com/br/antivirus-domestico/download-antivirus-gratis/',
       category: 'security',
-      version: '24.1',
+      version: '18.0',
       size: '550 MB'
     },
     {
